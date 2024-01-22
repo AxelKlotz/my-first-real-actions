@@ -10,3 +10,15 @@ jobs:
             uses: actions/setup-dotnet@v4.0.0
             with: 
                dotnet-version: '8'
+          - name: Install dependencies
+            run: dotnet restore
+          - name: Build app
+            run: dotnet build --no-restore
+          - name: Test app
+            run: dotnet test --no-restore --verbosity normal
+          - name: Post issue
+            uses: dacbd/create-issue-action@main
+            with:
+                token: ${{ secrets.TOKEN }}
+                title: Simple test issue
+                body: Some of the tests didn't pass. Fix it!
